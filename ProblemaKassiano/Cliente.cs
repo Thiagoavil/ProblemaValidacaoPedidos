@@ -10,7 +10,8 @@ namespace ProblemaKassiano
     {
         public Cliente()
         {
-
+            //Inicia a lista zerada
+            ListaPedidos = new List<Pedidos>();
         }
         public string Nome { get; set; }
         public List<Pedidos> ListaPedidos { get; set; }
