@@ -10,8 +10,12 @@ namespace ProblemaKassiano
     {
         public Pedidos()
         {
-
+            Id = Guid.NewGuid();  
+            PedidoProcessado = false;
+            Prioridade = 0;
         }
+        public Guid Id { get; set; }
+        public Guid ClienteId { get; set; }
         public string Item { get; set; }
         public double Valor { get; set; }
         public DateTime Data { get; set; }
