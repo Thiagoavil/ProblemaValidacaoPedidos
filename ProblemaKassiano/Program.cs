@@ -208,11 +208,20 @@ namespace ProblemaKassiano
             //ordena pela data
             todosOsPedidos = todosOsPedidos.OrderByDescending(p => p.Data).ToList();
 
-            Pedidos[] pedidosParaProcessar = new Pedidos[5];
+            List<Pedidos> pedidosParaProcessar = new List<Pedidos>();
 
-            todosOsPedidos.CopyTo(0, pedidosParaProcessar, 0, 5);
+            for (int i = 0;i<5;i++)
+            {
+                if(todosOsPedidos.Count>= i)
+                {
+                    pedidosParaProcessar.Add(todosOsPedidos[i]);
+                }
+            }
 
-            UltimoCliente(pedidosParaProcessar);
+            if(UltimosClientesAtendidos.Count > 0)
+            {
+                UltimoCliente(pedidosParaProcessar);
+            }
 
             if (ultimosClientesPremium())
             {
@@ -221,10 +230,16 @@ namespace ProblemaKassiano
             else
                 PrioridadePremium(pedidosParaProcessar);
 
+            var processar = pedidosParaProcessar.OrderByDescending(p => p.Prioridade).ToList();
 
-
+            foreach(var p in processar)
+            {
+                p.PedidoProcessado = true;
+                var cliente = clientes.Where(x => x.Id == p.ClienteId).FirstOrDefault();
+                UltimosClientesAtendidos.Add(cliente);
+            };
         }
-        private void PrioridadeNormal(Pedidos[] pedidos)
+        private void PrioridadeNormal(List<Pedidos> pedidos)
         {
             foreach (Pedidos pedido in pedidos)
             {
@@ -237,7 +252,7 @@ namespace ProblemaKassiano
                     pedido.Prioridade++;
             }
         }
-        private void PrioridadePremium(Pedidos[] pedidos)
+        private void PrioridadePremium(List<Pedidos> pedidos)
         {
             foreach (Pedidos pedido in pedidos)
             {
@@ -266,7 +281,7 @@ namespace ProblemaKassiano
             else
                 return false; 
         }
-        private void UltimoCliente(Pedidos[] pedidos)
+        private void UltimoCliente(List<Pedidos> pedidos)
         {
             foreach (Pedidos pedido in pedidos)
             {
