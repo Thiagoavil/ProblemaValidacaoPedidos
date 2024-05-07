@@ -209,6 +209,13 @@ namespace ProblemaKassiano
             todosOsPedidos = todosOsPedidos.OrderByDescending(p => p.Data).ToList();
 
             List<Pedidos> pedidosParaProcessar = new List<Pedidos>();
+            
+            if(todosOsPedidos.Count == 0)
+            {
+                Console.WriteLine("Sem pedidos para processar");
+                return;
+            }
+
 
             for (int i = 0;i<5;i++)
             {
@@ -229,6 +236,8 @@ namespace ProblemaKassiano
             }
             else
                 PrioridadePremium(pedidosParaProcessar);
+
+            var pro
 
             var processar = pedidosParaProcessar.OrderByDescending(p => p.Prioridade).ToList();
 
